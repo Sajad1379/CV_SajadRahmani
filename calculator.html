@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button {
+            background-color: cornflowerblue;
+            width: 148px;
+            height: 80px;
+            margin: 3px;
+            opacity: 0.9;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 3ch;
+            font-weight: bold;
+            border-radius: 4pt;
+            border: transparent;
+        }
+        
+        button:hover {
+            background-color: coral;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+        
+        #txt {
+            width: 620px;
+            margin: 3px;
+            border-radius: 4pt;
+            height: 80px;
+            background-color: rgb(242, 218, 187);
+            border: transparent;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 3ch;
+        }
+        
+        body {
+            background-color: rgb(200, 228, 228);
+        }
+        
+        .claculate {
+            position: absolute;
+            height: 525px;
+            width: 600;
+            background-color: aliceblue;
+            top: 80px;
+            left: 450px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="claculate">
+        <input type="text" id="txt"><br>
+        <button id="pcn">%</button>
+        <button id="pout" onclick="clc()">CE</button>
+        <button id="cdl" onclick="clc()">C</button>
+        <button id="del" onclick="backspce()">&times;</button>
+        <br>
+        <button id="7" onclick="display_button(7)">7</button>
+        <button id="8" onclick="display_button(8)">8</button>
+        <button id="9" onclick="display_button(9)">9</button>
+        <button id="mul" onclick="display_button('*')">*</button>
+        <br>
+        <button id="4" onclick="display_button(4)">4</button>
+        <button id="5" onclick="display_button(5)">5</button>
+        <button id="6" onclick="display_button(6)">6</button>
+        <button id="sub" onclick="display_button('-')">-</button>
+        <br>
+        <button id="1" onclick="display_button(1)">1</button>
+        <button id="2" onclick="display_button(2)">2</button>
+        <button id="3" onclick="display_button(3)">3</button>
+        <button id="sum" onclick="display_button('+')">+</button>
+        <br>
+        <button id="eql" onclick="claculate()">=</button>
+        <button id="0" onclick="display_button(0)">0</button>
+        <button id="dot" onclick="display_button('.')">.</button>
+        <button id="div" onclick="display_button('/')">/</button>
+    </div>
+    <script>
+        function display_button(id) {
+            txt = document.getElementById("txt").value;
+            document.getElementById("txt").value = txt + id;
+        }
+
+        function claculate() {
+            txt = document.getElementById("txt").value;
+            check = check_valid(txt);
+            if (check == false) return;
+            s = "";
+            num = [];
+            opp = [];
+            flag_sign = true;
+            for (i = 0; i < txt.length; ++i) {
+                if ((txt[i] <= 9 && txt[i] >= 0) || txt[i] == '.') {
+                    s = s + txt[i];
+                }
+                if (txt[i] == '+' || txt[i] == '-' || txt[i] == '*' || txt[i] == '/') {
+                    if (s != "") flag_sign = Give_value(flag_sign, s);
+
+                    s = "";
+                    opp.push(txt[i]);
+                    if (txt[i] == '-') flag_sign = false;
+                }
+            }
+            if (s != "") flag_sign = Give_value(flag_sign, s);
+
+            if (num.length - 1 !== opp.length) {
+                alert_display("your pharse is invalid.");
+                return;
+            }
+            document.getElementById("txt").value = compute(num, opp);
+        }
+
+        function check_valid(txt) {
+            if (txt === "") {
+                alert_display("plese fill txet box.");
+                return false;
+            }
+            if (txt[0] == '+' || txt[0] == '-' || txt[0] == '*' || txt[0] == '/' ||
+                txt[0] == '%' || txt[0] == '.') {
+                alert_display("your pharse is invalid.");
+                return false;
+            }
+
+        }
+
+        function compute(num, opp) {
+            j = 0;
+            for (i = 0; i < opp.length; i++) {
+                debugger;
+                if (opp[i] == '*' || opp[i] == '/') {
+                    if (opp[i] == '*') {
+                        num = mul_div(true, num, j);
+                    } else {
+                        num = mul_div(false, num, j);
+                    }
+                } else {
+                    j++;
+                }
+            }
+            cal = 0;
+            for (i = 0; i < num.length; ++i) {
+                cal = cal + num[i];
+            }
+            return cal;
+        }
+
+        function mul_div(flag, num, i) {
+            if (flag == true) {
+                mul = num[i] * num[i + 1];
+                num.splice(i, 2);
+                num.splice(i, 0, mul);
+            } else {
+                //debugger;
+                div = num[i] / num[i + 1];
+                num.splice(i, 2);
+                num.splice(i, 0, div);
+            }
+            return num;
+        }
+
+        function Give_value(flag_sign, s) {
+            if (flag_sign == false) {
+                num.push(-1 * Number(s));
+                flag_sign = true;
+            } else {
+                num.push(Number(s));
+            }
+            return flag_sign;
+        }
+
+        function alert_display(s) {
+            alert(s);
+            document.getElementById("txt").value = "";
+        }
+
+        function clc() {
+            document.getElementById("txt").value = "";
+        }
+
+        function backspce() {
+            txt = document.getElementById("txt").value;
+            if (txt != "") {
+                s = "";
+                for (i = 0; i < txt.length - 1; i++) {
+                    s = s + txt[i];
+                }
+                txt = s;
+                document.getElementById("txt").value = txt;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .in {
+            background-color: chartreuse;
+            opacity: 0.6;
+            height: 80px;
+        }
+        
+        .btn {
+            background-color: aquamarine;
+            position: absolute;
+            right: 100px;
+            top: 30px;
+            width: 80px;
+            height: 35px;
+            border-radius: 5pt;
+            border-color: aliceblue;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            opacity: 0.8;
+            cursor: pointer;
+            background-color: blue;
+        }
+        
+        #txt1 {
+            background-color: aquamarine;
+            position: absolute;
+            left: 30px;
+            top: 30px;
+            font-weight: bold;
+            width: 150px;
+            height: 35px;
+            font-family: 'Times New Roman', Times, serif;
+            border-radius: 5pt;
+            border-color: aliceblue;
+        }
+        
+        ul li:nth-child(even) {
+            background-color: rgb(200, 200, 243);
+        }
+        
+        #Mylist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        ul li {
+            padding: 30px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bolder;
+        }
+        
+        ul li:hover {
+            background-color: blue;
+            cursor: pointer;
+        }
+        
+        .close {
+            position: absolute;
+            right: 12px;
+            border-radius: 5pt;
+            padding: 10px;
+            height: 8px;
+        }
+        
+        .close:hover {
+            background-color: red;
+            cursor: pointer;
+        }
+        
+        ul li.check {
+            text-decoration: line-through;
+            background-color: rgb(21, 177, 70);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="in">
+        <input type="text" id="txt1">
+        <button type="button" onclick="fun_add()" class="btn">Add</button>
+    </div>
+    <br>
+    <ul id="Mylist">
+        <li class="check">playing </li>
+        <li>teching </li>
+        <li>driving </li>
+        <li>byuing </li>
+    </ul>
+
+
+
+    <script>
+        add_close();
+
+        function add_span_close(i) {
+            var myNodelist = document.getElementsByTagName("LI");
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            myNodelist[i].appendChild(span);
+            var cl = document.getElementsByClassName("close");
+            cl[i].onclick = function() {
+                this.parentElement.style.display = "none";
+            }
+        }
+
+        function add_close() {
+            var myNodelist = document.getElementsByTagName("LI");
+            var i;
+            for (i = 0; i < myNodelist.length; i++) {
+                add_span_close(i);
+            }
+        }
+
+        function fun_add() {
+            var input_text = document.getElementById("txt1").value;
+            if (input_text === "") {
+                alert("plese enter your job.");
+            } else {
+                var list = document.querySelector('ul');
+                var li = document.createElement("li");
+                //var new_li=document.createTextNode("input_text");
+                li.innerHTML = input_text;
+                document.getElementById("Mylist").appendChild(li);
+                var myNodelist = document.getElementsByTagName("LI");
+                let i = myNodelist.length;
+                add_span_close(i - 1);
+            }
+            document.getElementById("txt1").value = "";
+
+        }
+
+        const list = document.querySelector('ul');
+        list.addEventListener('click', function(ev) {
+            if (ev.target.tagName === 'LI') {
+                ev.target.classList.toggle('check');
+            }
+        }, false);
+    </script>
+</body>
+
+</html>
