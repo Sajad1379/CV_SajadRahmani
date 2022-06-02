@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button {
+            background-color: yellow;
+            width: 80px;
+            height: 30px;
+            border: transparent;
+            border-radius: 5pt;
+        }
+        
+        .Game {
+            position: absolute;
+            top: 100px;
+            left: 680px;
+            width: 300px;
+            height: 220px;
+        }
+        
+        #b1 {
+            border-radius: 50pt;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            right: 90px;
+        }
+        
+        #b2 {
+            border-radius: 50pt;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: -50px;
+        }
+        
+        body {
+            background-color: cyan;
+        }
+        
+        #try {
+            width: 80px;
+            height: 40px;
+            margin-top: 80px;
+            margin-left: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="Game">
+        <p>
+            <h1><b>GAME</b></h1>
+        </p>
+        <br><br>
+        <p>
+            <h3>try your luck</h3>
+        </p>
+
+        <button id="b1" onclick="check(0)">left</button>
+        <button id="b2" onclick="check(1)">right</button>
+        <br><br>
+        <button onclick="try_again()" id="try">try agian</button>
+    </div>
+    <script>
+        function check(id) {
+            m = Math.random() * 10;
+            i = (Math.floor(m) % 2);
+            debugger;
+            id_b = "b" + (id + 1).toString();
+            if (i == id) {
+                document.getElementById(id_b).style.backgroundColor = 'green';
+            } else {
+                document.getElementById(id_b).style.backgroundColor = 'red';
+            }
+            document.getElementById("b1").disabled = true;
+            document.getElementById("b2").disabled = true;
+        }
+
+        function try_again() {
+            document.getElementById("b1").disabled = false;
+            document.getElementById("b2").disabled = false;
+            document.getElementById("b1").style.backgroundColor = 'yellow';
+            document.getElementById("b2").style.backgroundColor = 'yellow';
+        }
+    </script>
+</body>
+
+</html>
